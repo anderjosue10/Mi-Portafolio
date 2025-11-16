@@ -7,7 +7,7 @@ Portafolio personal con HTML, CSS y JavaScript.
 Ander Josué (anderjosue10)
 
 ## Cómo ver
-Abre: https://anderjosue10.github.io/Mi-Portafolio/
+Abre: https://anderjosue10.github.io/IngSistemas/
 
 ## Estructura
 - `index.html` — página principal
