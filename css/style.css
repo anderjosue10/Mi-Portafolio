@@ -796,105 +796,94 @@ section {
     background: rgba(244, 114, 182, 0.1);
 }
 
-/* Descripción Profesional Animada */
-.professional-description {
-    margin-top: 2rem;
-    max-width: 800px;
+/* Título Profesional */
+.professional-title {
     text-align: center;
+    margin: 30px 0;
     opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1.5s ease-out 0.5s forwards;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
 }
 
-.description-content {
-    background: rgba(15, 23, 42, 0.8);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 2rem;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.name-title {
+.title-full-stack {
     font-size: 2.5rem;
     font-weight: 700;
-    background: var(--gradient);
+    background: linear-gradient(135deg, #6366f1, #f472b6, #06b6d4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 1rem;
-    animation: slideInFromLeft 1s ease-out 0.7s both;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.location-info, .linkedin-info {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    animation: slideInFromRight 1s ease-out 0.9s both;
+/* Herramientas Destacadas */
+.tools-highlight {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px 0;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.6s forwards;
 }
 
-.location-info i, .linkedin-info i {
-    color: var(--primary-color);
-    margin-right: 0.5rem;
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    min-width: 100px;
 }
 
-.separator {
-    margin: 0 0.5rem;
-    color: var(--text-secondary);
+.tool-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.education-info {
-    margin: 1.5rem 0;
-    animation: fadeInScale 1s ease-out 1.1s both;
+.tool-item i {
+    font-size: 2rem;
+    color: #6366f1;
+    animation: pulse 2s infinite;
 }
 
-.education-info h3 {
-    color: var(--text-primary);
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+.tool-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.education-info p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.skills-section {
-    margin-top: 1.5rem;
-    animation: slideInFromBottom 1s ease-out 1.3s both;
-}
-
-.skills-section h4 {
-    color: var(--text-primary);
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-}
-
-.skills-section ul {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-}
-
-.skills-section li {
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-    padding-left: 1rem;
-    position: relative;
-    line-height: 1.5;
-}
-
-.skills-section li::before {
-    content: "•";
-    color: var(--primary-color);
-    font-weight: bold;
+/* Información Profesional en Esquina */
+.professional-info-corner {
     position: absolute;
-    left: 0;
+    bottom: 30px;
+    right: 30px;
+    text-align: right;
+    opacity: 0;
+    animation: slideInFromRight 1s ease-out 0.9s forwards;
 }
 
-.skills-section strong {
-    color: var(--text-primary);
+.engineer-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f472b6;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.location-info {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
 }
 
 /* Animaciones para la descripción */
@@ -950,6 +939,15 @@ section {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
     }
 }
 
