@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot modal</title>
     <title>Mi Portafolio | Desarrollador Full Stack</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
+    <button id="toggleChat" class="chat-btn"><i class="fas fa-robot"></i></button>
 
+    <div id="chatModal" class="chat-modal">
+      <div class="chat-header">
+        <span>Chatbot</span>
+        <span id="closeChat" class="close">&times;</span>
+      </div>
+      <div class="chat-body">
+        <p>Hola en que puedo ayudarte</p>
+      </div>
+      <div class="chat-footer">
+        <input type="text" placeholder="Escribe un mensaje.." />
+        <button>Enviar</button>
+      </div>
+    </div>
 
     <!-- Cursor personalizado -->
     <div class="cursor"></div>
@@ -21,116 +39,276 @@
 
     <!-- Navegación Superior Derecha -->
     <nav class="top-right-nav">
-        <div class="nav-buttons">
-            <button class="nav-btn" id="projects-btn">
-                <i class="fas fa-briefcase"></i>
-                <span>Mis Proyectos</span>
-            </button>
-            <button class="nav-btn" id="certificates-btn">
-                <i class="fas fa-certificate"></i>
-                <span>Certificados</span>
-            </button>
-            <button class="nav-btn" id="microsoft-btn">
-                <i class="fab fa-microsoft"></i>
-                <span>Logros Microsoft</span>
-            </button>
-        </div>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="projects-btn">
+          <i class="fas fa-briefcase"></i>
+          <span>Mis Proyectos</span>
+        </button>
+        <button class="nav-btn" id="certificates-btn">
+          <i class="fas fa-certificate"></i>
+          <span>Certificados</span>
+        </button>
+        <button class="nav-btn" id="microsoft-btn">
+          <i class="fab fa-microsoft"></i>
+          <span>Logros Microsoft</span>
+        </button>
+      </div>
     </nav>
 
     <!-- Sección Hero Centrada -->
     <section id="home" class="hero-centered">
-        <div class="hero-content-centered">
-            <!-- Imagen Central con Efectos -->
-            <div class="hero-image-container">
-                <div class="floating-orb orb-1"></div>
-                <div class="floating-orb orb-2"></div>
-                <div class="floating-orb orb-3"></div>
-                <div class="fire-effect fire-1"></div>
-                <div class="fire-effect fire-2"></div>
-                <div class="fire-effect fire-3"></div>
-                <div class="fire-effect fire-4"></div>
-                <div class="image-glow"></div>
-                <div class="central-image">
-                    <img src="images/ChatGPT Image 16 nov 2025, 12_26_43 p.m..png" alt="Anderson Josué Gutiérrez Rivera">
-                </div>
-            </div>
-
-            <!-- Título Profesional con Animaciones -->
-            <div class="professional-title">
-                <h1 class="title-full-stack">Desarrollador Full Stack</h1>
-            </div>
-
-            <!-- Herramientas Destacadas -->
-            <div class="tools-highlight">
-                <div class="tool-item">
-                    <i class="fas fa-mobile-alt"></i>
-                    <span>Móvil</span>
-                </div>
-                <div class="tool-item">
-                    <i class="fas fa-desktop"></i>
-                    <span>Escritorio</span>
-                </div>
-                <div class="tool-item">
-                    <i class="fas fa-globe"></i>
-                    <span>Web</span>
-                </div>
-            </div>
-
-            <!-- Bloque Profesional -->
-            <div class="developer-block">
-                <div class="developer-content">
-                    <div class="developer-info">
-                        <h2 class="developer-name">ANDERSON JOSUE GUTIERREZ RIVERA</h2>
-                        <div class="tools-list">
-                            <div class="tool-grid">
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" title="HTML"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" title="CSS"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" title="JavaScript"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" title="C#"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" title="GitHub"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Native" title="React Native"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" title="MongoDB"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" alt="SQL Server" title="SQL Server"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" title="MySQL"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" alt="Laravel" title="Laravel"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" title="PHP"></div>
-                                <div class="tool-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache" title="Apache"></div>
-                                <div class="tool-logo"><img src="https://img.icons8.com/ios-filled/50/000000/api-settings.png" alt="API REST" title="API REST"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="developer-image">
-                        <img src="images/file_00000000a9fc61f7910e434c8b59644a.png" alt="Anderson Josué Gutiérrez Rivera">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Información Profesional en Esquina Inferior -->
-            <div class="professional-info-corner">
-                <div class="engineer-title">Ingeniero en Sistemas</div>
-                <div class="location-info">UNAN - Managua - CUR Matagalpa</div>
-            </div>
+      <div class="hero-content-centered">
+        <!-- Imagen Central con Efectos -->
+        <div class="hero-image-container">
+          <div class="floating-orb orb-1"></div>
+          <div class="floating-orb orb-2"></div>
+          <div class="floating-orb orb-3"></div>
+          <div class="fire-effect fire-1"></div>
+          <div class="fire-effect fire-2"></div>
+          <div class="fire-effect fire-3"></div>
+          <div class="fire-effect fire-4"></div>
+          <div class="image-glow"></div>
+          <div class="central-image">
+            <img
+              src="images/ChatGPT Image 16 nov 2025, 12_26_43 p.m..png"
+              alt="Anderson Josué Gutiérrez Rivera"
+            />
+          </div>
         </div>
+
+        <!-- Título Profesional con Animaciones -->
+        <div class="professional-title">
+          <h1 class="title-full-stack">Desarrollador Full Stack</h1>
+        </div>
+
+        <!-- Herramientas Destacadas -->
+        <div class="tools-highlight">
+          <div class="tool-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Móvil</span>
+          </div>
+          <div class="tool-item">
+            <i class="fas fa-desktop"></i>
+            <span>Escritorio</span>
+          </div>
+          <div class="tool-item">
+            <i class="fas fa-globe"></i>
+            <span>Web</span>
+          </div>
+        </div>
+
+        <!-- Bloque Profesional -->
+        <div class="developer-block">
+          <div class="developer-content">
+            <div class="developer-info">
+              <h2 class="developer-name">ANDERSON JOSUE GUTIERREZ RIVERA</h2>
+              <div class="tools-list">
+                <div class="tool-grid">
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                      alt="HTML"
+                      title="HTML"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                      alt="CSS"
+                      title="CSS"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                      alt="JavaScript"
+                      title="JavaScript"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+                      alt="C#"
+                      title="C#"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                      alt="GitHub"
+                      title="GitHub"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                      alt="React Native"
+                      title="React Native"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                      alt="MongoDB"
+                      title="MongoDB"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg"
+                      alt="SQL Server"
+                      title="SQL Server"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                      alt="MySQL"
+                      title="MySQL"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
+                      alt="Laravel"
+                      title="Laravel"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                      alt="PHP"
+                      title="PHP"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg"
+                      alt="Apache"
+                      title="Apache"
+                    />
+                  </div>
+                  <div class="tool-logo">
+                    <img
+                      src="https://img.icons8.com/ios-filled/50/000000/api-settings.png"
+                      alt="API REST"
+                      title="API REST"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="developer-image">
+              <img
+                src="images/file_00000000a9fc61f7910e434c8b59644a.png"
+                alt="Anderson Josué Gutiérrez Rivera"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Información Profesional en Esquina Inferior -->
+        <div class="professional-info-corner">
+          <div class="engineer-title">Ingeniero en Sistemas</div>
+          <div class="location-info">UNAN - Managua - CUR Matagalpa</div>
+        </div>
+      </div>
     </section>
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-text">
-                    <p>&copy; 2025 ANDERSON JOSUE GUTIERREZ RIVERA. Todos los derechos reservados.</p>
-                </div>
-                <div class="footer-social">
-                    <a href="https://wa.me/1234567890" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://instagram.com/tuusuario" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                    <a href="https://facebook.com/tuusuario" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-text">
+            <p>
+              &copy; 2025 ANDERSON JOSUE GUTIERREZ RIVERA. Todos los derechos
+              reservados.
+            </p>
+          </div>
+          <div class="footer-social">
+            <a href="https://wa.me/1234567890" target="_blank" rel="noopener"
+              ><i class="fab fa-whatsapp"></i
+            ></a>
+            <a
+              href="https://instagram.com/tuusuario"
+              target="_blank"
+              rel="noopener"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a
+              href="https://facebook.com/tuusuario"
+              target="_blank"
+              rel="noopener"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a
+              href="https://linkedin.com/in/tuusuario"
+              target="_blank"
+              rel="noopener"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+          </div>
         </div>
+      </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/main.js"></script>
-</body>
+    <script>
+      const chatModal = document.getElementById("chatModal");
+      const toggleBtn = document.getElementById("toggleChat");
+      const closeBtn = document.getElementById("closeChat");
+      chatModal.style.display = "block";
+      toggleBtn.onclick = () => {
+        chatModal.style.display =
+          chatModal.style.display === "block" ? "none" : "block";
+      };
+      closeBtn.onclick = () => (chatModal.style.display = "none");
+
+      //funcion para mmover el botoon
+      let isDragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      // Mouse
+      toggleBtn.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        const rect = toggleBtn.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+      });
+
+      // Touch
+      toggleBtn.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        const rect = toggleBtn.getBoundingClientRect();
+        offsetX = touch.clientX - rect.left;
+        offsetY = touch.clientY - rect.top;
+      });
+
+      // Mover
+      document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+          toggleBtn.style.left = e.clientX - offsetX + "px";
+          toggleBtn.style.top = e.clientY - offsetY + "px";
+        }
+      });
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          if (isDragging) {
+            const touch = e.touches[0];
+            toggleBtn.style.left = touch.clientX - offsetX + "px";
+            toggleBtn.style.top = touch.clientY - offsetY + "px";
+          }
+        },
+        { passive: false }
+      );
+
+      // Soltar
+      document.addEventListener("mouseup", () => (isDragging = false));
+      document.addEventListener("touchend", () => (isDragging = false));
+    </script>
+  </body>
 </html>
