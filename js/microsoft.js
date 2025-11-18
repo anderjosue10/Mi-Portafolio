@@ -33,7 +33,14 @@ function openAchievementModal(achievementId) {
         'achievement1': 'images/githubCopilot.pdf',
         'achievement2': 'images/LogicaC.pdf',
         'achievement3': 'images/uso de matrices y de la y la intruccion foreach en C.pdf',
-        'achievement4': 'images/InformesBI.pdf'
+        'achievement4': 'images/InformesBI.pdf',
+        'achievement5':'images/analisisdatosdescripcion.pdf',
+        'achievement6':'images/modelardatosBI.pdf',
+        'achievement7':'images/objetosvisualezBI.pdf',
+        'achievement8':'images/ObtenerdatosBI.pdf',
+        'achievement9':'images/powerAPS.pdf',
+        'achievement10':'images/Powerautomate.pdf',
+        'achievement11':'images/powerbi.pdf',
     };
 
     if (achievementPaths[achievementId]) {

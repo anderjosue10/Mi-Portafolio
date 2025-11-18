@@ -29,7 +29,6 @@ html {
 
 body {
     font-family: 'Inter', sans-serif;
-    line-height: 1.6;
     color: var(--text-primary);
     background: var(--bg-primary);
     overflow-x: hidden;
@@ -945,12 +944,11 @@ section {
     max-width: 1000px;
     margin: 0 auto;
     padding: 30px;
-    background: linear-gradient(-45deg, #6b7b8f, #a08b96, #4a7b8f, #6b7b5f);
+    background: linear-gradient(-45deg, #4d550f, #4b112f, #153f51, #571b1b);
     background-size: 400% 400%;
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    border: 2px solid transparent;
     background-clip: padding-box;
     position: relative;
     color: #020617;
