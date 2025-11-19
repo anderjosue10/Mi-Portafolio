@@ -256,170 +256,265 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/main.js"></script>
 <script>
-  const chatModal = document.getElementById("chatModal");
-  const toggleBtn = document.getElementById("toggleChat");
-  const closeBtn = document.getElementById("closeChat");
-  const chatBody = document.querySelector(".chat-body");
-  const chatInput = document.querySelector(".chat-footer input");
-  const chatSendBtn = document.querySelector(".chat-footer button");
+// Configuración del chatbot móvil mejorado
+document.addEventListener('DOMContentLoaded', function() {
+    const chatModal = document.getElementById("chatModal");
+    const toggleBtn = document.getElementById("toggleChat");
+    const closeBtn = document.getElementById("closeChat");
+    const chatBody = document.querySelector(".chat-body");
+    const chatInput = document.querySelector(".chat-footer input");
+    const chatSendBtn = document.querySelector(".chat-footer button");
 
-  // URL de tu API desplegada en Vercel
-  const API_URL = "https://root-folder-liart.vercel.app/api/gemini"; 
+    // URL de tu API desplegada en Vercel
+    const API_URL = "https://root-folder-liart.vercel.app/api/gemini"; 
 
-  // Estado del modal
-  chatModal.style.display = "none";
+    // Variables para el arrastre
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let initialX = 0;
+    let initialY = 0;
 
-  // Funciones para abrir/cerrar el chat
-  toggleBtn.onclick = () => {
-    chatModal.style.display = chatModal.style.display === "block" ? "none" : "block";
-  };
-  
-  closeBtn.onclick = () => {
+    // Estado del modal
     chatModal.style.display = "none";
-  };
 
-  // Función para enviar mensajes
-  async function sendMessage() {
-    const message = chatInput.value.trim();
+    // Función para abrir/cerrar el chat
+    function toggleChat() {
+        chatModal.style.display = chatModal.style.display === "block" ? "none" : "block";
+    }
+
+    // Event listeners para abrir/cerrar
+    toggleBtn.addEventListener('click', function(e) {
+        // Solo abrir si no estamos arrastrando
+        if (!isDragging) {
+            toggleChat();
+        }
+    });
     
-    if (!message) return;
+    closeBtn.addEventListener('click', function() {
+        chatModal.style.display = "none";
+    });
 
-    // Agregar mensaje del usuario al chat
-    addMessageToChat("user", message);
-    chatInput.value = "";
+    // Función para enviar mensajes
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+        
+        if (!message) return;
 
-    // Mostrar indicador de typing
-    showTypingIndicator();
+        // Agregar mensaje del usuario al chat
+        addMessageToChat("user", message);
+        chatInput.value = "";
 
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: message
-        })
-      });
+        // Mostrar indicador de typing
+        showTypingIndicator();
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    prompt: message
+                })
+            });
 
-      const data = await response.json();
-      
-      // Remover indicador de typing
-      removeTypingIndicator();
-      
-      // Extraer la respuesta del chatbot (ajusta según la estructura de respuesta de Gemini)
-      const botResponse = extractBotResponse(data);
-      
-      // Agregar respuesta del bot al chat
-      addMessageToChat("bot", botResponse);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
 
-    } catch (error) {
-      console.error("Error:", error);
-      removeTypingIndicator();
-      addMessageToChat("bot", "Lo siento, hubo un error al procesar tu mensaje.");
+            const data = await response.json();
+            
+            // Remover indicador de typing
+            removeTypingIndicator();
+            
+            // Extraer la respuesta del chatbot
+            const botResponse = extractBotResponse(data);
+            
+            // Agregar respuesta del bot al chat
+            addMessageToChat("bot", botResponse);
+
+        } catch (error) {
+            console.error("Error:", error);
+            removeTypingIndicator();
+            addMessageToChat("bot", "Lo siento, hubo un error al procesar tu mensaje.");
+        }
     }
-  }
 
-  // Función para extraer la respuesta del bot (ajusta según la estructura de Gemini)
-  function extractBotResponse(data) {
-    // Esta estructura depende de la respuesta de la API de Gemini
-    // Puede que necesites ajustarla
-    try {
-      return data.candidates[0].content.parts[0].text || 
-             data.contents[0].parts[0].text || 
-             "No pude procesar la respuesta.";
-    } catch (err) {
-      return "Error al procesar la respuesta del servidor.";
+    // Función para extraer la respuesta del bot
+    function extractBotResponse(data) {
+        try {
+            return data.candidates[0].content.parts[0].text || 
+                   data.contents[0].parts[0].text || 
+                   "No pude procesar la respuesta.";
+        } catch (err) {
+            return "Error al procesar la respuesta del servidor.";
+        }
     }
-  }
 
-  // Función para agregar mensajes al chat
-  function addMessageToChat(sender, message) {
-    const messageElement = document.createElement("div");
-    messageElement.className = `message ${sender}-message`;
-    messageElement.innerHTML = `<p>${message}</p>`;
-    chatBody.appendChild(messageElement);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }
-
-  // Función para mostrar indicador de typing
-  function showTypingIndicator() {
-    const typingElement = document.createElement("div");
-    typingElement.id = "typing-indicator";
-    typingElement.className = "message bot-message typing";
-    typingElement.innerHTML = `<p><i>Escribiendo...</i></p>`;
-    chatBody.appendChild(typingElement);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }
-
-  // Función para remover indicador de typing
-  function removeTypingIndicator() {
-    const typingElement = document.getElementById("typing-indicator");
-    if (typingElement) {
-      typingElement.remove();
+    // Función para agregar mensajes al chat
+    function addMessageToChat(sender, message) {
+        const messageElement = document.createElement("div");
+        messageElement.className = `message ${sender}-message`;
+        messageElement.innerHTML = `<p>${message}</p>`;
+        chatBody.appendChild(messageElement);
+        chatBody.scrollTop = chatBody.scrollHeight;
     }
-  }
 
-  // Event listeners para enviar mensajes
-  chatSendBtn.addEventListener("click", sendMessage);
-  
-  chatInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
+    // Función para mostrar indicador de typing
+    function showTypingIndicator() {
+        const typingElement = document.createElement("div");
+        typingElement.id = "typing-indicator";
+        typingElement.className = "message bot-message typing";
+        typingElement.innerHTML = `<p><i>Escribiendo...</i></p>`;
+        chatBody.appendChild(typingElement);
+        chatBody.scrollTop = chatBody.scrollHeight;
     }
-  });
 
-  // Código para arrastrar el botón (manteniendo tu código existente)
-  let isDragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  // Mouse events
-  toggleBtn.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    const rect = toggleBtn.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    toggleBtn.style.cursor = "grabbing";
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      toggleBtn.style.left = e.clientX - offsetX + "px";
-      toggleBtn.style.top = e.clientY - offsetY + "px";
+    // Función para remover indicador de typing
+    function removeTypingIndicator() {
+        const typingElement = document.getElementById("typing-indicator");
+        if (typingElement) {
+            typingElement.remove();
+        }
     }
-  });
 
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    toggleBtn.style.cursor = "grab";
-  });
+    // Event listeners para enviar mensajes
+    chatSendBtn.addEventListener("click", sendMessage);
+    
+    chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
 
-  // Touch events
-  toggleBtn.addEventListener("touchstart", (e) => {
-    isDragging = true;
-    const touch = e.touches[0];
-    const rect = toggleBtn.getBoundingClientRect();
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-  });
+    // ========== SISTEMA DE ARRASTRE MEJORADO ==========
 
-  document.addEventListener("touchmove", (e) => {
-    if (isDragging) {
-      const touch = e.touches[0];
-      toggleBtn.style.left = touch.clientX - offsetX + "px";
-      toggleBtn.style.top = touch.clientY - offsetY + "px";
-      e.preventDefault();
+    // Mouse events para arrastrar
+    toggleBtn.addEventListener("mousedown", startDrag);
+    
+    // Touch events para dispositivos táctiles
+    toggleBtn.addEventListener("touchstart", startDragTouch);
+
+    function startDrag(e) {
+        e.preventDefault();
+        isDragging = false; // Resetear estado de arrastre
+        
+        // Guardar posición inicial
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        initialX = toggleBtn.offsetLeft;
+        initialY = toggleBtn.offsetTop;
+        
+        document.addEventListener("mousemove", handleDrag);
+        document.addEventListener("mouseup", stopDrag);
+        
+        toggleBtn.style.transition = 'none'; // Remover transición durante arrastre
     }
-  }, { passive: false });
 
-  document.addEventListener("touchend", () => {
-    isDragging = false;
-  });
+    function startDragTouch(e) {
+        e.preventDefault();
+        isDragging = false;
+        
+        const touch = e.touches[0];
+        dragStartX = touch.clientX;
+        dragStartY = touch.clientY;
+        initialX = toggleBtn.offsetLeft;
+        initialY = toggleBtn.offsetTop;
+        
+        document.addEventListener("touchmove", handleDragTouch, { passive: false });
+        document.addEventListener("touchend", stopDrag);
+        
+        toggleBtn.style.transition = 'none';
+    }
+
+    function handleDrag(e) {
+        const deltaX = e.clientX - dragStartX;
+        const deltaY = e.clientY - dragStartY;
+        
+        // Solo considerar como arrastre si se movió más de 5px
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+            isDragging = true;
+            toggleBtn.classList.add("dragging");
+        }
+        
+        if (isDragging) {
+            const newX = initialX + deltaX;
+            const newY = initialY + deltaY;
+            
+            // Limitar al área visible
+            const maxX = window.innerWidth - toggleBtn.offsetWidth;
+            const maxY = window.innerHeight - toggleBtn.offsetHeight;
+            
+            toggleBtn.style.left = Math.max(0, Math.min(newX, maxX)) + "px";
+            toggleBtn.style.top = Math.max(0, Math.min(newY, maxY)) + "px";
+            toggleBtn.style.right = "auto";
+            toggleBtn.style.bottom = "auto";
+        }
+    }
+
+    function handleDragTouch(e) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - dragStartX;
+        const deltaY = touch.clientY - dragStartY;
+        
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+            isDragging = true;
+            toggleBtn.classList.add("dragging");
+        }
+        
+        if (isDragging) {
+            const newX = initialX + deltaX;
+            const newY = initialY + deltaY;
+            
+            const maxX = window.innerWidth - toggleBtn.offsetWidth;
+            const maxY = window.innerHeight - toggleBtn.offsetHeight;
+            
+            toggleBtn.style.left = Math.max(0, Math.min(newX, maxX)) + "px";
+            toggleBtn.style.top = Math.max(0, Math.min(newY, maxY)) + "px";
+            toggleBtn.style.right = "auto";
+            toggleBtn.style.bottom = "auto";
+            
+            e.preventDefault();
+        }
+    }
+
+    function stopDrag() {
+        document.removeEventListener("mousemove", handleDrag);
+        document.removeEventListener("touchmove", handleDragTouch);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchend", stopDrag);
+        
+        toggleBtn.classList.remove("dragging");
+        toggleBtn.style.transition = 'all 0.3s ease'; // Restaurar transición
+        
+        // Pequeño delay para resetear el estado de arrastre
+        setTimeout(() => {
+            isDragging = false;
+        }, 50);
+    }
+
+    // Cerrar modal al hacer clic fuera de él
+    document.addEventListener("click", (e) => {
+        if (chatModal.style.display === "block" && 
+            !chatModal.contains(e.target) && 
+            e.target !== toggleBtn) {
+            chatModal.style.display = "none";
+        }
+    });
+
+    // Iniciar con efecto de pulso
+    setTimeout(() => {
+        toggleBtn.classList.add("pulse");
+    }, 1000);
+
+    // Prevenir arrastre accidental en móviles
+    toggleBtn.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+});
 </script>
   </body>
 </html>
