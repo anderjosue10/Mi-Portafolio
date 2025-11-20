@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let initialX = 0;
     let initialY = 0;
     let clickStartTime = 0;
+    let isTouchDevice = 'ontouchstart' in window;
 
     // Estado del modal
     chatModal.style.display = "none";
@@ -298,14 +299,46 @@ document.addEventListener('DOMContentLoaded', function() {
         return clickDuration < 200; // Si duró menos de 200ms, es un clic
     }
 
-    // Event listeners mejorados
-    toggleBtn.addEventListener('click', function(e) {
-        // Solo abrir si no estamos arrastrando y fue un clic rápido
-        if (!isDragging && isQuickClick()) {
-            e.stopPropagation();
-            toggleChat();
-        }
-    });
+    // Event listeners MEJORADOS para móvil
+    if (isTouchDevice) {
+        // En dispositivos táctiles, solo usar touch events
+        toggleBtn.addEventListener('touchstart', function(e) {
+            clickStartTime = Date.now();
+            isDragging = false;
+            
+            // Guardar posición inicial para posible arrastre
+            const touch = e.touches[0];
+            dragStartX = touch.clientX;
+            dragStartY = touch.clientY;
+            initialX = toggleBtn.offsetLeft;
+            initialY = toggleBtn.offsetTop;
+        });
+
+        toggleBtn.addEventListener('touchend', function(e) {
+            // Solo abrir si no estamos arrastrando y fue un clic rápido
+            if (!isDragging && isQuickClick()) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleChat();
+            }
+        });
+
+        // Remover el event listener de click en dispositivos táctiles
+        toggleBtn.addEventListener('click', function(e) {
+            if (isTouchDevice) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+    } else {
+        // En desktop, usar mouse events normalmente
+        toggleBtn.addEventListener('click', function(e) {
+            if (!isDragging && isQuickClick()) {
+                e.stopPropagation();
+                toggleChat();
+            }
+        });
+    }
     
     closeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -329,11 +362,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ========== SISTEMA DE ARRASTRE MEJORADO ==========
 
-    // Mouse events para arrastrar
-    toggleBtn.addEventListener("mousedown", startDrag);
-    
-    // Touch events para dispositivos táctiles
-    toggleBtn.addEventListener("touchstart", startDragTouch);
+    // Mouse events para arrastrar (solo desktop)
+    if (!isTouchDevice) {
+        toggleBtn.addEventListener("mousedown", startDrag);
+    }
 
     function startDrag(e) {
         clickStartTime = Date.now();
@@ -350,22 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         toggleBtn.style.transition = 'none';
         toggleBtn.style.cursor = 'grabbing';
-    }
-
-    function startDragTouch(e) {
-        clickStartTime = Date.now();
-        isDragging = false;
-        
-        const touch = e.touches[0];
-        dragStartX = touch.clientX;
-        dragStartY = touch.clientY;
-        initialX = toggleBtn.offsetLeft;
-        initialY = toggleBtn.offsetTop;
-        
-        document.addEventListener("touchmove", handleDragTouch, { passive: false });
-        document.addEventListener("touchend", stopDrag);
-        
-        toggleBtn.style.transition = 'none';
     }
 
     function handleDrag(e) {
@@ -393,6 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Sistema de arrastre para touch (ya está integrado en los eventos de touchstart/touchmove)
     function handleDragTouch(e) {
         const touch = e.touches[0];
         const deltaX = touch.clientX - dragStartX;
@@ -421,9 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function stopDrag() {
         document.removeEventListener("mousemove", handleDrag);
-        document.removeEventListener("touchmove", handleDragTouch);
         document.removeEventListener("mouseup", stopDrag);
-        document.removeEventListener("touchend", stopDrag);
         
         toggleBtn.classList.remove("dragging");
         toggleBtn.style.transition = 'all 0.3s ease';
@@ -433,6 +448,21 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             isDragging = false;
         }, 100);
+    }
+
+    // Eventos de arrastre para touch
+    if (isTouchDevice) {
+        toggleBtn.addEventListener("touchmove", handleDragTouch, { passive: false });
+        
+        toggleBtn.addEventListener("touchend", function(e) {
+            document.removeEventListener("touchmove", handleDragTouch);
+            toggleBtn.classList.remove("dragging");
+            toggleBtn.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                isDragging = false;
+            }, 100);
+        });
     }
 
     // ========== FUNCIONALIDAD DEL CHAT ==========
@@ -545,16 +575,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
         }
     }, { passive: false });
-
-    // Mejorar la experiencia táctil en móviles
-    toggleBtn.addEventListener('touchend', function(e) {
-        // Pequeño delay para permitir que el estado de arrastre se actualice
-        setTimeout(() => {
-            if (!isDragging && isQuickClick()) {
-                toggleChat();
-            }
-        }, 50);
-    });
 });
 </script>
   </body>
