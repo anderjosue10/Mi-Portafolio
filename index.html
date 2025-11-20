@@ -274,26 +274,168 @@ document.addEventListener('DOMContentLoaded', function() {
     let dragStartY = 0;
     let initialX = 0;
     let initialY = 0;
+    let clickStartTime = 0;
 
     // Estado del modal
     chatModal.style.display = "none";
 
     // Función para abrir/cerrar el chat
     function toggleChat() {
-        chatModal.style.display = chatModal.style.display === "block" ? "none" : "block";
+        if (chatModal.style.display === "block") {
+            chatModal.style.display = "none";
+        } else {
+            chatModal.style.display = "block";
+            // Enfocar el input cuando se abre
+            setTimeout(() => {
+                chatInput.focus();
+            }, 300);
+        }
     }
 
-    // Event listeners para abrir/cerrar
+    // Función para determinar si fue un clic rápido (no arrastre)
+    function isQuickClick() {
+        const clickDuration = Date.now() - clickStartTime;
+        return clickDuration < 200; // Si duró menos de 200ms, es un clic
+    }
+
+    // Event listeners mejorados
     toggleBtn.addEventListener('click', function(e) {
-        // Solo abrir si no estamos arrastrando
-        if (!isDragging) {
+        // Solo abrir si no estamos arrastrando y fue un clic rápido
+        if (!isDragging && isQuickClick()) {
+            e.stopPropagation();
             toggleChat();
         }
     });
     
-    closeBtn.addEventListener('click', function() {
+    closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
         chatModal.style.display = "none";
     });
+
+    // Cerrar modal al hacer clic fuera - MEJORADO
+    document.addEventListener("click", function(e) {
+        // Si el modal está abierto y el clic fue fuera del modal Y fuera del botón
+        if (chatModal.style.display === "block" && 
+            !chatModal.contains(e.target) && 
+            !toggleBtn.contains(e.target)) {
+            chatModal.style.display = "none";
+        }
+    });
+
+    // Prevenir que los clics dentro del modal cierren el modal
+    chatModal.addEventListener("click", function(e) {
+        e.stopPropagation();
+    });
+
+    // ========== SISTEMA DE ARRASTRE MEJORADO ==========
+
+    // Mouse events para arrastrar
+    toggleBtn.addEventListener("mousedown", startDrag);
+    
+    // Touch events para dispositivos táctiles
+    toggleBtn.addEventListener("touchstart", startDragTouch);
+
+    function startDrag(e) {
+        clickStartTime = Date.now();
+        isDragging = false;
+        
+        // Guardar posición inicial
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        initialX = toggleBtn.offsetLeft;
+        initialY = toggleBtn.offsetTop;
+        
+        document.addEventListener("mousemove", handleDrag);
+        document.addEventListener("mouseup", stopDrag);
+        
+        toggleBtn.style.transition = 'none';
+        toggleBtn.style.cursor = 'grabbing';
+    }
+
+    function startDragTouch(e) {
+        clickStartTime = Date.now();
+        isDragging = false;
+        
+        const touch = e.touches[0];
+        dragStartX = touch.clientX;
+        dragStartY = touch.clientY;
+        initialX = toggleBtn.offsetLeft;
+        initialY = toggleBtn.offsetTop;
+        
+        document.addEventListener("touchmove", handleDragTouch, { passive: false });
+        document.addEventListener("touchend", stopDrag);
+        
+        toggleBtn.style.transition = 'none';
+    }
+
+    function handleDrag(e) {
+        const deltaX = e.clientX - dragStartX;
+        const deltaY = e.clientY - dragStartY;
+        
+        // Solo considerar como arrastre si se movió más de 8px
+        if (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8) {
+            isDragging = true;
+            toggleBtn.classList.add("dragging");
+        }
+        
+        if (isDragging) {
+            const newX = initialX + deltaX;
+            const newY = initialY + deltaY;
+            
+            // Limitar al área visible
+            const maxX = window.innerWidth - toggleBtn.offsetWidth;
+            const maxY = window.innerHeight - toggleBtn.offsetHeight;
+            
+            toggleBtn.style.left = Math.max(10, Math.min(newX, maxX - 10)) + "px";
+            toggleBtn.style.top = Math.max(10, Math.min(newY, maxY - 10)) + "px";
+            toggleBtn.style.right = "auto";
+            toggleBtn.style.bottom = "auto";
+        }
+    }
+
+    function handleDragTouch(e) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - dragStartX;
+        const deltaY = touch.clientY - dragStartY;
+        
+        if (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8) {
+            isDragging = true;
+            toggleBtn.classList.add("dragging");
+        }
+        
+        if (isDragging) {
+            const newX = initialX + deltaX;
+            const newY = initialY + deltaY;
+            
+            const maxX = window.innerWidth - toggleBtn.offsetWidth;
+            const maxY = window.innerHeight - toggleBtn.offsetHeight;
+            
+            toggleBtn.style.left = Math.max(10, Math.min(newX, maxX - 10)) + "px";
+            toggleBtn.style.top = Math.max(10, Math.min(newY, maxY - 10)) + "px";
+            toggleBtn.style.right = "auto";
+            toggleBtn.style.bottom = "auto";
+            
+            e.preventDefault();
+        }
+    }
+
+    function stopDrag() {
+        document.removeEventListener("mousemove", handleDrag);
+        document.removeEventListener("touchmove", handleDragTouch);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchend", stopDrag);
+        
+        toggleBtn.classList.remove("dragging");
+        toggleBtn.style.transition = 'all 0.3s ease';
+        toggleBtn.style.cursor = 'pointer';
+        
+        // Resetear estado de arrastre después de un pequeño delay
+        setTimeout(() => {
+            isDragging = false;
+        }, 100);
+    }
+
+    // ========== FUNCIONALIDAD DEL CHAT ==========
 
     // Función para enviar mensajes
     async function sendMessage() {
@@ -337,7 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error("Error:", error);
             removeTypingIndicator();
-            addMessageToChat("bot", "Lo siento, hubo un error al procesar tu mensaje.");
+            addMessageToChat("bot", "Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta nuevamente.");
         }
     }
 
@@ -380,126 +522,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners para enviar mensajes
-    chatSendBtn.addEventListener("click", sendMessage);
+    chatSendBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        sendMessage();
+    });
     
     chatInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
+            e.stopPropagation();
             sendMessage();
-        }
-    });
-
-    // ========== SISTEMA DE ARRASTRE MEJORADO ==========
-
-    // Mouse events para arrastrar
-    toggleBtn.addEventListener("mousedown", startDrag);
-    
-    // Touch events para dispositivos táctiles
-    toggleBtn.addEventListener("touchstart", startDragTouch);
-
-    function startDrag(e) {
-        e.preventDefault();
-        isDragging = false; // Resetear estado de arrastre
-        
-        // Guardar posición inicial
-        dragStartX = e.clientX;
-        dragStartY = e.clientY;
-        initialX = toggleBtn.offsetLeft;
-        initialY = toggleBtn.offsetTop;
-        
-        document.addEventListener("mousemove", handleDrag);
-        document.addEventListener("mouseup", stopDrag);
-        
-        toggleBtn.style.transition = 'none'; // Remover transición durante arrastre
-    }
-
-    function startDragTouch(e) {
-        e.preventDefault();
-        isDragging = false;
-        
-        const touch = e.touches[0];
-        dragStartX = touch.clientX;
-        dragStartY = touch.clientY;
-        initialX = toggleBtn.offsetLeft;
-        initialY = toggleBtn.offsetTop;
-        
-        document.addEventListener("touchmove", handleDragTouch, { passive: false });
-        document.addEventListener("touchend", stopDrag);
-        
-        toggleBtn.style.transition = 'none';
-    }
-
-    function handleDrag(e) {
-        const deltaX = e.clientX - dragStartX;
-        const deltaY = e.clientY - dragStartY;
-        
-        // Solo considerar como arrastre si se movió más de 5px
-        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
-            isDragging = true;
-            toggleBtn.classList.add("dragging");
-        }
-        
-        if (isDragging) {
-            const newX = initialX + deltaX;
-            const newY = initialY + deltaY;
-            
-            // Limitar al área visible
-            const maxX = window.innerWidth - toggleBtn.offsetWidth;
-            const maxY = window.innerHeight - toggleBtn.offsetHeight;
-            
-            toggleBtn.style.left = Math.max(0, Math.min(newX, maxX)) + "px";
-            toggleBtn.style.top = Math.max(0, Math.min(newY, maxY)) + "px";
-            toggleBtn.style.right = "auto";
-            toggleBtn.style.bottom = "auto";
-        }
-    }
-
-    function handleDragTouch(e) {
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - dragStartX;
-        const deltaY = touch.clientY - dragStartY;
-        
-        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
-            isDragging = true;
-            toggleBtn.classList.add("dragging");
-        }
-        
-        if (isDragging) {
-            const newX = initialX + deltaX;
-            const newY = initialY + deltaY;
-            
-            const maxX = window.innerWidth - toggleBtn.offsetWidth;
-            const maxY = window.innerHeight - toggleBtn.offsetHeight;
-            
-            toggleBtn.style.left = Math.max(0, Math.min(newX, maxX)) + "px";
-            toggleBtn.style.top = Math.max(0, Math.min(newY, maxY)) + "px";
-            toggleBtn.style.right = "auto";
-            toggleBtn.style.bottom = "auto";
-            
-            e.preventDefault();
-        }
-    }
-
-    function stopDrag() {
-        document.removeEventListener("mousemove", handleDrag);
-        document.removeEventListener("touchmove", handleDragTouch);
-        document.removeEventListener("mouseup", stopDrag);
-        document.removeEventListener("touchend", stopDrag);
-        
-        toggleBtn.classList.remove("dragging");
-        toggleBtn.style.transition = 'all 0.3s ease'; // Restaurar transición
-        
-        // Pequeño delay para resetear el estado de arrastre
-        setTimeout(() => {
-            isDragging = false;
-        }, 50);
-    }
-
-    // Cerrar modal al hacer clic fuera de él
-    document.addEventListener("click", (e) => {
-        if (chatModal.style.display === "block" && 
-            !chatModal.contains(e.target) && 
-            e.target !== toggleBtn) {
-            chatModal.style.display = "none";
         }
     });
 
@@ -514,6 +545,16 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
         }
     }, { passive: false });
+
+    // Mejorar la experiencia táctil en móviles
+    toggleBtn.addEventListener('touchend', function(e) {
+        // Pequeño delay para permitir que el estado de arrastre se actualice
+        setTimeout(() => {
+            if (!isDragging && isQuickClick()) {
+                toggleChat();
+            }
+        }, 50);
+    });
 });
 </script>
   </body>
