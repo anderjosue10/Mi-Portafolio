@@ -77,28 +77,9 @@ body {
 .loading-char:nth-child(7) { animation-delay: 0.6s; }
 .loading-char:nth-child(8) { animation-delay: 0.7s; }
 
-/* Cursor personalizado */
-.cursor {
-    width: 8px;
-    height: 8px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 999;
-    transition: transform 0.1s;
-}
 
-.cursor-follower {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 998;
-    transition: all 0.2s ease-out;
-}
+
+
 
 /* Navegación Superior Derecha */
 .top-right-nav {
