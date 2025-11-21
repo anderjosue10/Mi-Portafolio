@@ -2698,20 +2698,9 @@ section {
     opacity: 0.9;
 }
 
-/* Animación específica para ciberseguridad */
-@keyframes border-pulse-security {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-        border-color: rgba(16, 185, 129, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(16, 185, 129, 0.6), 0 0 60px rgba(6, 182, 212, 0.4);
-        border-color: rgba(6, 182, 212, 0.8);
-    }
-}
 
-/* QUITAR LOS EFECTOS DE PARTÍCULAS QUE DAN VUELTAS */
-/* Eliminamos los pseudo-elementos ::before y ::after que creaban el borde giratorio */
+
+
 
 /* Responsive para bloque de seguridad */
 @media (max-width: 1024px) {
@@ -3174,28 +3163,6 @@ section {
     box-shadow: 0 15px 40px rgba(245, 158, 11, 0.6);
 }
 
-/* Animaciones específicas */
-@keyframes border-pulse-deployment {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-        border-color: rgba(139, 92, 246, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 60px rgba(168, 85, 247, 0.4);
-        border-color: rgba(168, 85, 247, 0.8);
-    }
-}
-
-@keyframes border-pulse-projects {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        border-color: rgba(245, 158, 11, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(245, 158, 11, 0.6), 0 0 60px rgba(217, 119, 6, 0.4);
-        border-color: rgba(217, 119, 6, 0.8);
-    }
-}
 
 /* Responsive para nuevos bloques */
 @media (max-width: 1024px) {
@@ -3546,17 +3513,6 @@ section {
         .fa-ai:before {
             content: "🤖";
             font-style: normal;
-        }
-
-        @keyframes border-pulse-ai {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
-                border-color: rgba(147, 51, 234, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(147, 51, 234, 0.6), 0 0 60px rgba(168, 85, 247, 0.4);
-                border-color: rgba(168, 85, 247, 0.8);
-            }
         }
 
         /* Responsive */
