@@ -540,6 +540,66 @@ section {
     font-size: 0.875rem;
 }
 
+/* Botón de reproducir en overlays */
+.project-link.play-video {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+/* Modal de video embebido */
+#videoModal {
+    position: fixed;
+    inset: 0;
+    display: none; /* visible via JS */
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+#videoModal[aria-hidden="false"] {
+    display: flex;
+}
+
+.video-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+}
+
+.video-modal-content {
+    position: relative;
+    width: min(1100px, 95%);
+    background: rgba(15,23,42,0.98);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    z-index: 2100;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
 /* Sección de Certificados */
 .certificates-section {
     padding: 6rem 0;

@@ -45,11 +45,11 @@
                         <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=250&q=80" alt="Proyecto 1">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">
+                                <a href="#" class="project-link" title="Abrir proyecto" aria-label="Abrir proyecto">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
-                                <a href="https://github.com/anderjosue10/Laboratorio-Clinico-Sangre-de-Cristo.git" class="project-link">
-                                    <i class="fab fa-github"></i>
+                                <a href="#" class="project-link play-video" data-video-id="rTIV-yManpk" data-playlist="PLnfHfs7uTABD4J_RjWA4SZo4fbzhYDkCl" title="Ver video: Laboratorio Clinico" aria-label="Ver video: Laboratorio Clinico">
+                                    <i class="fas fa-play"></i>
                                 </a>
                             </div>
                         </div>
@@ -71,11 +71,11 @@
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=250&q=80" alt="Proyecto 2">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">
+                                <a href="#" class="project-link" title="Abrir proyecto" aria-label="Abrir proyecto">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
-                                <a href="#" class="project-link">
-                                    <i class="fab fa-github"></i>
+                                <a href="#" class="project-link play-video" data-video-id="14AyObFuLdw" data-playlist="PLnfHfs7uTABD4J_RjWA4SZo4fbzhYDkCl" title="Ver video: Ferreteria Hodgson Luna" aria-label="Ver video: Ferreteria Hodgson Luna">
+                                    <i class="fas fa-play"></i>
                                 </a>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                         <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=250&q=80" alt="Proyecto 3">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">
+                                <a href="#" class="project-link" title="Abrir proyecto" aria-label="Abrir proyecto">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
                                 <a href="https://github.com/anderjosue10/CHATBOT-UNAN-MANAGUA.git" class="project-link">
@@ -128,8 +128,9 @@
                                 <a href="#" class="project-link">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
-                                <a href="https://github.com/anderjosue10/SMARNET.git" class="project-link">
-                                    <i class="fab fa-github"></i>
+                                <!-- Reproducir video de YouTube -->
+                                <a href="#" class="project-link play-video" data-video-id="vwd1-0qvY6Q" data-playlist="PLnfHfs7uTABD4J_RjWA4SZo4fbzhYDkCl" title="Ver video: SMARNET" aria-label="Ver video: SMARNET">
+                                    <i class="fas fa-play"></i>
                                 </a>
                             </div>
                         </div>
@@ -147,6 +148,17 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal para reproducir videos de YouTube en la misma página -->
+    <div id="videoModal" class="video-modal" aria-hidden="true">
+        <div class="video-modal-backdrop"></div>
+        <div class="video-modal-content" role="dialog" aria-modal="true">
+            <button class="video-modal-close" aria-label="Cerrar video">&times;</button>
+            <div class="video-container">
+                <iframe id="videoModalIframe" src="" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

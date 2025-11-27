@@ -62,3 +62,53 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         });
     });
 }
+
+// --- Reproductor de video en modal (YouTube embed) ---
+const videoModal = document.getElementById('videoModal');
+const videoIframe = document.getElementById('videoModalIframe');
+const videoCloseBtn = document.querySelector('.video-modal-close');
+
+function openVideoModal(videoId, playlist) {
+    if (!videoId || videoId.indexOf('VIDEO_ID') === 0) {
+        // Si aún no se ha configurado el ID, avisar al autor
+        alert('ID de vídeo no configurado. Reemplaza el valor placeholder por el ID real de YouTube.');
+        return;
+    }
+
+    // Si se recibe un playlist explícito, lo añadimos para mantener el contexto de la lista
+    const listParam = playlist ? `&list=${encodeURIComponent(playlist)}` : '';
+    const src = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&modestbranding=1${listParam}`;
+    videoIframe.src = src;
+    videoModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeVideoModal() {
+    videoModal.setAttribute('aria-hidden', 'true');
+    // detener el video limpiando el src
+    videoIframe.src = '';
+}
+
+// Abrir modal cuando se haga click en enlaces con la clase .play-video
+document.querySelectorAll('.play-video').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const vid = btn.dataset.videoId;
+        const playlist = btn.dataset.playlist; // opcional
+        openVideoModal(vid, playlist);
+    });
+});
+
+// cerrar desde el botón
+if (videoCloseBtn) videoCloseBtn.addEventListener('click', closeVideoModal);
+
+// cerrar al hacer click fuera del contenido
+document.querySelectorAll('#videoModal, #videoModal .video-modal-backdrop').forEach(el => {
+    el.addEventListener('click', (e) => {
+        if (e.target === el) closeVideoModal();
+    });
+});
+
+// cerrar con ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVideoModal();
+});
