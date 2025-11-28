@@ -11,7 +11,8 @@ function openModal(certId) {
         'cert2': 'images/CertificadoJUDC CURMATAGALPA-110.pdf',
         'cert3': 'images/CartaFirmadaNegocio.pdf',
         'cert4': 'images/certificadonuevo.pdf',
-        'cert5': 'images/generated.pdf'
+        'cert5': 'images/generated.pdf',
+        'cert6': 'images/generateddiplomadesplieueseguridad.pdf'
     };
 
     if (certificatePaths[certId]) {
