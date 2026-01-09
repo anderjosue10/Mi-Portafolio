@@ -198,78 +198,155 @@ body {
     font-size: 12px;
 }
 
-/* Botón de descarga del CV fuera del menú (verde agradable) */
-.cv-download-wrapper {
-    position: fixed;
-    top: 80px; /* sitúa el botón justo debajo de la nav fija */
-    right: 20px;
-    z-index: 1001;
+/* Panel del CV: icono fija, nombre, descripción y acciones */
+.cv-panel {
+    position: relative;
+    z-index: 2;
+    /* quitar cuadro de fondo: transparente, sin borde ni blur */
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+    /* Igualar ancho al contenedor del hero para mantener consistencia con el título */
+    /* Alineamos el ancho del panel con el contenedor principal para
+       que el párrafo ocupe el mismo ancho que las cards dentro de la página */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-
-.cv-download-button {
-    display: inline-flex;
+.cv-panel-inner {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(135deg, #16a34a, #059669);
-    color: #ffffff;
-    padding: 10px 18px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(5, 150, 105, 0.18), 0 6px 12px rgba(0,0,0,0.15);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    width: 100%;
+    padding: 6px 8px; /* mantener separación visual sin caja */
 }
 
-.cv-download-button i {
+.cv-icon-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    box-shadow: 0 8px 20px rgba(79,70,229,0.18);
 }
 
-.cv-download-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 22px 48px rgba(5, 150, 105, 0.25), 0 10px 20px rgba(0,0,0,0.2);
+.cv-info { text-align: center; }
+/* Hacemos que el nombre del CV comparta el estilo del título profesional,
+   pero con menor intensidad para que el título principal siga resaltando. */
+.cv-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    /* mismo degradado que el título, pero más opaco/atenuado */
+    background: linear-gradient(135deg, rgba(99,102,241,0.85), rgba(244,114,182,0.7), rgba(6,182,212,0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.9;
 }
+.cv-desc {
+    font-size: 13px;
+    color: rgba(203,213,225,0.85); /* un poco más opaco que text-secondary */
+    margin: 8px 0 10px;
+    line-height: 1.35;
+}
+
+.cv-actions { display:flex; gap: 8px; justify-content: center; }
+.cv-actions a { text-decoration: none; padding: 7px 12px; border-radius: 10px; font-weight:700; font-size:13px; }
+
+/* Botón ver: solo borde */
+.cv-view-btn {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Botón descargar: color sólido */
+.cv-download-solid {
+    background: var(--primary-color);
+    color: var(--bg-primary); /* texto oscuro para contraste y evitar blanco */
+    border: 2px solid rgba(0,0,0,0.06);
+}
+
+/* Ajustes para móviles: panel más compacto */
+@media (max-width: 640px) {
+    .cv-panel { padding: 8px; max-width: 420px; }
+    .cv-panel-inner { max-width: 420px; }
+    .cv-icon-button { width:44px; height:44px; font-size:16px; }
+    .cv-name { font-size:13px; }
+    .cv-desc { font-size:12px; }
+}
+
+/* Desktop: mostrar en fila (icono | info) y alinear texto a la izquierda */
+@media (min-width: 900px) {
+    .cv-panel-inner {
+        flex-direction: row;
+        align-items: center;
+        gap: 18px;
+        max-width: 800px;
+    }
+
+    .cv-icon-button {
+        width: 72px;
+        height: 72px;
+        font-size: 22px;
+        border-radius: 14px;
+    }
+
+    .cv-info { text-align: left; }
+    .cv-name { font-size: 1.6rem; }
+    .cv-desc {
+        font-size: 1.1rem; /* más grande en PC */
+        margin: 6px 0 0;
+        line-height: 1.6;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        /* que ocupe todo el ancho del panel (igual que las cards) */
+        width: 100%;
+        max-width: 100%;
+        text-align: center; /* centrar todo el párrafo en PC */
+        /* degradado similar al título, pero más opaco para que el título siga resaltando */
+        background: linear-gradient(135deg, rgba(99,102,241,0.85), rgba(244,114,182,0.7), rgba(6,182,212,0.7));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        /* fallback color para navegadores que no soporten background-clip */
+        color: rgba(203,213,225,0.95);
+        /* sutil sombra para dar profundidad */
+        text-shadow: 0 1px 0 rgba(0,0,0,0.12);
+    }
+
+    .cv-actions { justify-content: center; margin-top: 8px; }
+    .cv-actions a { padding: 8px 14px; }
+
+    /* Botones: ajuste de colores para combinar con la interfaz y no usar blanco en fondos */
+    .cv-view-btn { color: var(--primary-color); border-color: rgba(99,102,241,0.9); }
+    .cv-view-btn:hover { background: rgba(99,102,241,0.06); }
+
+    .cv-download-solid { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: var(--bg-primary); }
+    .cv-download-solid:hover { filter: brightness(1.05); }
+}
+
+/* Igualar altura de project-cards y centrar en móvil */
+.projects-grid { grid-auto-rows: 1fr; }
+.project-card { display:flex; flex-direction:column; height:100%; }
+.project-info { margin-top: auto; }
 
 @media (max-width: 640px) {
-    /* En móviles mantenemos el botón justo debajo del menú fijo y lo hacemos más compacto */
-    .cv-download-wrapper {
-        position: fixed;
-        /* 20px top de nav + ~44px altura del nav + 8px separación ≈ 72px */
-        top: 72px;
-        right: 12px;
-        bottom: auto;
-        z-index: 1001;
-    }
-
-    .cv-download-button {
-        padding: 6px 10px;
-        gap: 8px;
-        font-size: 12px;
-        border-radius: 10px;
-    }
-
-    .cv-download-button i {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-        border-radius: 8px;
-    }
-
-    /* Ajustes para que no se solape con elementos cuando la pantalla es muy estrecha */
-    @media (max-width: 420px) {
-        .cv-download-wrapper { right: 8px; top: 68px; }
-        .cv-download-button { padding: 5px 8px; font-size: 11px; }
-        .cv-download-button i { width: 24px; height: 24px; font-size: 13px; }
-    }
+    .projects-grid { grid-template-columns: 1fr; justify-items: center; }
+    .project-card { max-width: 420px; width: 100%; }
 }
 
 /* Hero Centrado */
