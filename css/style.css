@@ -52,15 +52,6 @@ button:focus, a:focus, .nav-btn:focus, .social-btn:focus, .cv-download-button:fo
     --primary-color: #6366f1;
     --primary-dark: #4f46e5;
     --secondary-color: #f472b6;
-    /* Tonos más oscuros inspirados en el gradiente del chatbot */
-    /* Tonos más oscuros y distintivos (menos parecido al chatbot) */
-    --primary-darker: #26224f; /* azul índigo muy oscuro */
-    --secondary-darker: #5a2642; /* burdeos oscuro */
-    --chat-darker-gradient: linear-gradient(135deg, var(--primary-darker), var(--secondary-darker));
-    /* Gradiente ligeramente más claro para el botón Descargar CV */
-    --download-start: #3f3a7a; /* un poco más claro que --primary-darker */
-    --download-end: #7a3f57;   /* un poco más claro que --secondary-darker */
-    --download-gradient: linear-gradient(135deg, var(--download-start), var(--download-end));
     --accent-color: #06b6d4;
     --whatsapp: #25D366;
     --instagram: #E4405F;
@@ -277,25 +268,16 @@ body {
 
 /* Botón ver: solo borde */
 .cv-view-btn {
-    /* Fondo transparente, borde y texto más claros para mejor contraste */
     background: transparent;
-    /* Usar el mismo tono/gradiente que el botón Descargar CV: fallback a --download-start */
-    border: 2px solid var(--download-start);
-    border-image: var(--download-gradient) 1;
-    /* Texto con gradiente igual al botón Descargar CV (fallback a color sólido) */
-    color: var(--download-start);
-    background: var(--download-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 /* Botón descargar: color sólido */
 .cv-download-solid {
-    /* Usar gradiente ligeramente más claro para que no luzca demasiado apagado */
-    background: var(--download-gradient);
-    color: white;
-    border: 2px solid rgba(0,0,0,0.08);
+    background: var(--primary-color);
+    color: var(--bg-primary); /* texto oscuro para contraste y evitar blanco */
+    border: 2px solid rgba(0,0,0,0.06);
 }
 
 /* Ajustes para móviles: panel más compacto */
@@ -326,11 +308,11 @@ body {
     .cv-actions a { padding: 8px 14px; }
 
     /* Botones: ajuste de colores para combinar con la interfaz y no usar blanco en fondos */
-    .cv-view-btn { background: transparent; color: var(--download-start); border: 2px solid var(--download-start); border-image: var(--download-gradient) 1; background: var(--download-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-    .cv-view-btn:hover { background: rgba(99,102,241,0.12); }
+    .cv-view-btn { color: var(--primary-color); border-color: rgba(99,102,241,0.9); }
+    .cv-view-btn:hover { background: rgba(99,102,241,0.06); }
 
-    .cv-download-solid { background: var(--download-gradient); color: white; border: 2px solid rgba(0,0,0,0.08); }
-    .cv-download-solid:hover { filter: brightness(0.98); }
+    .cv-download-solid { background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: var(--bg-primary); }
+    .cv-download-solid:hover { filter: brightness(1.05); }
 
 
 /* Igualar altura de project-cards y centrar en móvil */
@@ -1325,12 +1307,15 @@ section {
     background: rgba(99, 102, 241, 0.1);
     border: 1px solid rgba(99, 102, 241, 0.3);
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .tool-logo img {
     width: 40px;
     height: 40px;
     object-fit: contain;
+
+    border-radius: 8px;
 }
 
 .tool-logo:hover {
@@ -3846,17 +3831,17 @@ section {
         /* Sección de Contacto */
 .contact-section {
     padding: 80px 20px;
-    background: transparent !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    position: relative;
-    z-index: 2;
-    /* Eliminar animación de aparición */
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-}
-
+    background: rgba(99, 102, 241, 0.1) !important;
+    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    border-radius: 12px !important;
+    padding: 8px 10px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden !important;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 .contact-content {
     max-width: 800px;
     margin: 0 auto;
@@ -3905,11 +3890,12 @@ section {
 }
 
 .contact-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 12px;
-    display: flex;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: none; /* mantener colores originales del logo */
+    background: transparent;
+    border-radius: 8px;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
@@ -3983,6 +3969,54 @@ section {
     color: var(--primary-color);
 }
 
+/* --- Developer tools: quitar cuadro alrededor del texto de cada herramienta --- */
+.developer-content .tool-logo {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    overflow: visible !important;
+}
+
+.developer-content .tool-logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: none; /* mantener colores originales del logo */
+    background: rgba(99, 102, 241, 0.12);
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.developer-content .tool-logo .span {
+    margin-top: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    text-shadow: none !important;
+}
+
+/* Hover: sutil fondo morado sin crear un recuadro permanente */
+.developer-content .tool-logo:hover {
+    transform: translateY(-6px);
+}
+
+.developer-content .tool-logo:hover img {
+    background: rgba(168,85,247,0.14);
+    transform: scale(1.06);
+    box-shadow: 0 12px 28px rgba(168,85,247,0.06);
+}
+
 /* Estilos responsivos para la sección de contacto */
 @media (max-width: 768px) {
     .contact-section {
@@ -4015,6 +4049,45 @@ section {
     .contact-title {
         font-size: 1.8rem;
     }
+}
+
+/* --- Borde moradito ligero para cards y elementos tipo card --- */
+.unified-card-border,
+.projects-content .project-item,
+.security-content .security-tool-item,
+.ai-models-content .ai-model-item,
+.deployment-content .deployment-tool-item,
+.developer-content .tool-logo,
+.contact-option,
+.capability,
+.projects-badge,
+.security-badge,
+.ai-models-badge,
+.deployment-badge,
+.certificate-card,
+.achievement-card {
+    border: 1px solid rgba(168,85,247,0.18) !important; /* moradito ligero */
+    box-shadow: 0 6px 18px rgba(168,85,247,0.03);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover: acentuar ligeramente el borde morado */
+.projects-content .project-item:hover,
+.security-content .security-tool-item:hover,
+.ai-models-content .ai-model-item:hover,
+.deployment-content .deployment-tool-item:hover,
+.developer-content .tool-logo:hover,
+.contact-option:hover,
+.capability:hover,
+.projects-badge:hover,
+.security-badge:hover,
+.ai-models-badge:hover,
+.deployment-badge:hover,
+.certificate-card:hover,
+.achievement-card:hover {
+    border-color: rgba(168,85,247,0.28) !important;
+    box-shadow: 0 12px 30px rgba(168,85,247,0.06);
+}
     
     .contact-option {
         padding: 15px;
@@ -4099,3 +4172,299 @@ section {
         padding: 15px !important;
     }
 }
+
+/* ==============================
+   Unificar colores y bordes
+   Bloques: proyectos, ciberseguridad, IA, despliegue, developer
+   ============================== */
+
+:root {
+    --card-bg-dark: rgba(12, 16, 32, 0.42); /* menos opaco, más cercano a partículas */
+    --card-bg-overlay: rgba(15, 23, 42, 0.32);
+    --card-border-unified: rgba(99, 102, 241, 0.10);
+    --card-accent-unified: var(--primary-color);
+}
+
+/* Contenedores principales: mismo fondo oscuro translúcido y borde sutil */
+.projects-content,
+.security-content,
+.ai-models-content,
+.deployment-content,
+.developer-content {
+    background: linear-gradient(180deg, var(--card-bg-dark), var(--card-bg-overlay));
+    border-radius: 16px;
+    border: 1px solid var(--card-border-unified);
+    box-shadow: 0 10px 22px rgba(2, 6, 23, 0.45);
+    padding: 22px !important;
+    color: var(--text-primary) !important;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+/* Badges y tarjetas pequeñas: aspecto uniforme y sobrio */
+.projects-badge,
+.ai-models-badge,
+.deployment-badge {
+    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(168,85,247,0.06));
+    border-radius: 12px;
+    border: 1px solid rgba(167,139,250,0.10);
+    box-shadow: 0 8px 18px rgba(2,6,23,0.28);
+    color: var(--text-primary);
+    padding: 14px !important;
+}
+
+/* Tarjetas internas (items): fondo sutil y borde suave */
+.project-item,
+.ai-model-item,
+.capability,
+.contact-option {
+    background: rgba(255,255,255,0.035) !important; /* un poco más claro */
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.22) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Titulares: color uniforme sin degradados llamativos */
+.projects-title,
+.security-title,
+.ai-models-title,
+.deployment-title,
+.developer-name {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: var(--card-accent-unified) !important;
+    text-shadow: none !important;
+}
+
+/* Etiquetas y tags: usar el mismo color de acento */
+.tech-tag,
+.feature-tag {
+    background: rgba(99,102,241,0.06) !important;
+    color: var(--card-accent-unified) !important;
+    border: 1px solid rgba(99,102,241,0.12) !important;
+}
+
+.feature i,
+.capability i {
+    color: var(--card-accent-unified) !important;
+}
+
+/* Estados (deployed / local) con tonos neutrales coherentes */
+.project-status.deployed {
+    background: rgba(16,185,129,0.12) !important;
+    color: #a7f3d0 !important;
+}
+.project-status.local {
+    background: rgba(245,158,11,0.08) !important;
+    color: #fbbf24 !important;
+}
+
+/* Suavizar animaciones/efectos para mantener consistencia cromática */
+.projects-content,
+.security-content,
+.ai-models-content,
+.deployment-content {
+    animation: none !important;
+}
+
+/* Asegurar contraste en móviles */
+@media (max-width: 768px) {
+    .projects-content,
+    .security-content,
+    .ai-models-content,
+    .deployment-content {
+        padding: 20px !important;
+        border-radius: 12px;
+    }
+}
+
+/* ==============================
+   Forzar esquema morado unificado
+   Basado en la card de despliegue (#8b5cf6 -> #a855f7)
+   ============================== */
+
+:root {
+    --unified-purple-1: #8b5cf6;
+    --unified-purple-2: #a855f7;
+    --unified-purple-shadow: rgba(168,85,247,0.16);
+    --card-accent-unified: var(--unified-purple-1);
+}
+
+/* Badges y elementos destacados con degradado morado */
+.projects-badge,
+.ai-models-badge,
+.deployment-badge,
+.developer-content .cv-icon-button {
+    background: linear-gradient(135deg, var(--unified-purple-1), var(--unified-purple-2)) !important;
+    border: 1px solid rgba(167,139,250,0.16) !important;
+    box-shadow: 0 12px 30px var(--unified-purple-shadow) !important;
+    color: #fff !important;
+}
+
+/* Iconos y cajas con fondo morado coherente */
+.model-icon,
+.contact-icon,
+.tool-logo img + .span,
+.tool-logo .span {
+    background: linear-gradient(135deg, var(--unified-purple-1), var(--unified-purple-2)) !important;
+    color: #fff !important;
+}
+
+/* Quitar cuadro morado alrededor del texto sólo dentro del bloque Developer */
+.developer-content .tool-logo img + .span,
+.developer-content .tool-logo .span {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    padding: 0 !important;
+    border: none !important;
+    text-shadow: none !important;
+}
+
+/* Forzar color de los iconos <i> a morado cuando no tengan imagen */
+.security-tool-item i,
+.feature i,
+.capability i,
+.projects-badge .badge-icon i,
+.ai-models-badge .badge-icon i,
+.deployment-badge .badge-icon i {
+    color: var(--unified-purple-2) !important;
+}
+
+/* Unificar hover/animación en tarjetas */
+.project-item:hover,
+.ai-model-item:hover,
+.capability:hover,
+.contact-option:hover,
+.projects-badge:hover,
+.ai-models-badge:hover,
+.deployment-badge:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 45px var(--unified-purple-shadow) !important;
+}
+
+/* Estados (deployed / local) usando tonos morados suaves */
+.project-status.deployed,
+.project-status.local {
+    background: rgba(139,92,246,0.12) !important;
+    color: #e9d5ff !important;
+}
+
+/* Tags y badges pequeños morados */
+.tech-tag,
+.feature-tag,
+.model-features .feature-tag {
+    background: rgba(139,92,246,0.06) !important;
+    color: var(--unified-purple-2) !important;
+    border: 1px solid rgba(167,139,250,0.12) !important;
+}
+
+/* Forzar que títulos usen color morado y no degradados previos */
+.projects-title,
+.security-title,
+.ai-models-title,
+.deployment-title,
+.developer-name {
+    color: var(--unified-purple-1) !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+}
+
+/* Pequeño ajuste: mejorar contraste de textos secundarios en bloques */
+.projects-content p,
+.ai-models-content p,
+.security-content p,
+.deployment-content p {
+    color: var(--text-secondary) !important;
+}
+
+/* ==============================
+   Overrides específicos para CIBERSEGURIDAD
+   Fuerza tonos morados para fondo, iconos, badges y animaciones
+   ============================== */
+
+.security-content {
+    border: 1px solid rgba(167,139,250,0.12) !important;
+    background: linear-gradient(180deg, rgba(20,12,40,0.6), rgba(15,23,42,0.5)) !important;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.security-title {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    color: var(--unified-purple-1) !important;
+    text-shadow: none !important;
+}
+
+.security-tool-item {
+    background: rgba(139,92,246,0.045) !important; /* más sutil */
+    border: 1px solid rgba(167,139,250,0.08) !important;
+    box-shadow: 0 6px 14px rgba(2,6,23,0.22) !important;
+    color: var(--text-primary) !important;
+}
+
+.security-tool-item:hover {
+    background: rgba(167,139,250,0.10) !important;
+    transform: translateY(-6px) scale(1.02) !important;
+    box-shadow: 0 14px 36px rgba(168,85,247,0.10) !important;
+}
+
+.security-tool-item i {
+    color: var(--unified-purple-2) !important;
+}
+
+.security-tool-item:hover i {
+    color: var(--unified-purple-1) !important;
+    transform: scale(1.15) !important;
+}
+
+/* Intento de recolorear imágenes (no siempre perfecto para PNG) */
+.security-tool-item img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+    filter: grayscale(1) brightness(0.95) sepia(0.25) hue-rotate(245deg) saturate(2) !important;
+}
+
+.metric-value {
+    background: linear-gradient(135deg, var(--unified-purple-1), var(--unified-purple-2)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.security-badge {
+    background: linear-gradient(135deg, var(--unified-purple-1), var(--unified-purple-2)) !important;
+    box-shadow: 0 12px 30px rgba(168,85,247,0.18) !important;
+    border: 1px solid rgba(167,139,250,0.14) !important;
+}
+
+.security-badge:hover {
+    transform: scale(1.06) rotate(1deg) !important;
+    box-shadow: 0 20px 50px rgba(168,85,247,0.22) !important;
+}
+
+/* Forzar colores de labels/pequeños badges dentro del bloque */
+.security-tool-item span,
+.security-badge .badge-text span,
+.security-badge .badge-text small {
+    color: #f8fafc !important;
+}
+
+/* Borde morado pequeño para todas las cards modificadas */
+.project-item,
+.ai-model-item,
+.capability,
+.contact-option,
+.security-tool-item,
+.projects-badge,
+.ai-models-badge,
+.deployment-badge {
+    border: 1px solid rgba(168,85,247,0.22) !important;
+}
+
+
+
+
